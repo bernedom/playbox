@@ -4,7 +4,8 @@ import sys
 import evdev
 from evdev import InputDevice, ecodes, list_devices
 
-device = evdev.InputDevice('/dev/input/event6')
+device_id = '/dev/input/event6'
+device = evdev.InputDevice(device_id)
 # print(device.capabilities(verbose=True))
 
 scancodes = {
@@ -17,9 +18,20 @@ scancodes = {
     50: u'M', 51: u',', 52: u'.', 53: u'/', 54: u'RSHFT', 56: u'LALT', 100: u'RALT'
 }
 
+print("reading from RFID-reader: " + device_id)
+
+
+def printMsg(message: str):
+    print("MESSAGE@" + message + "@")
+
+
+message = ""
 for event in device.read_loop():
-    # print(evdev.categorize(event))
-    cat_event = evdev.categorize(event)
-    if hasattr(cat_event, "keycode"):
-        print("KC" + scancodes[cat_event.scancode])
-        #print("VAL: " + str(ecodes.ecodes[event.code]))
+
+    if event.type == ecodes.EV_KEY and event.value == 1:
+        cat_event = evdev.categorize(event)
+        if cat_event.scancode > 1 and cat_event.scancode < 12:
+            message += scancodes[cat_event.scancode]
+        elif message != "":
+            printMsg(message)
+            message = ""
