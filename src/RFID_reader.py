@@ -21,5 +21,6 @@ print(device.capabilities(verbose=True))
 
 
 for event in device.read_loop():
-    print(evdev.categorize(event))
-    print(event)
+    # print(evdev.categorize(event))
+    if event is evdev.KeyEvent:
+        print(event.keycode)
