@@ -14,3 +14,12 @@ print(get_devices())
 devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
 for device in devices:
     print(device.path, device.name, device.phys)
+
+
+device = evdev.InputDevice('/dev/input/event6')
+print(device.capabilities(verbose=True))
+
+
+for event in device.read_loop():
+    print(evdev.categorize(event))
+    print(event)
