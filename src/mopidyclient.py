@@ -6,10 +6,10 @@ client = MPDClient()               # create client object
 client.timeout = 10
 # timeout for fetching the result of the idle command is handled seperately, default: None
 client.idletimeout = None
-client.connect("localhost", 6660)  # connect to localhost:6600
+client.connect("localhost", 6600)  # connect to localhost:6600
 print(client.mpd_version)          # print the MPD version
 # print result of the command "find any house"
-print(client.find("any", "test"))
+print(client.find("any", "house"))
 
 client.iterate = True
 for song in client.playlistinfo():
