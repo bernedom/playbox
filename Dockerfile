@@ -1,6 +1,10 @@
 FROM alpine:latest
 
-RUN apk add moc xorg-server vim python3 python2 linux-headers python3-dev gcc g++ mopidy mpc nmap
+RUN apk add moc xorg-server vim python3 python2 linux-headers python3-dev gcc g++ mopidy mpc
+
+#debug tools
+RUN apk add sox nmap
+
 RUN pip3 install --upgrade pip
 RUN pip3 install Mopidy-MusicBox-Webclient Mopidy-MPD
 RUN pip3 install evdev python-mpd2 

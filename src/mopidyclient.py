@@ -15,8 +15,16 @@ client.iterate = True
 for song in client.playlistinfo():
     print(song["file"])
 
+client.clear()
+client.add("file:///root/mount/test.MP3")
+
+client.next()
+client.play()
+
+
 print(client.stats())
 print(client.currentsong())
+
 
 client.close()                     # send the close command
 client.disconnect()
