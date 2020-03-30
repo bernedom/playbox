@@ -3,8 +3,9 @@
 import sys
 import evdev
 from evdev import InputDevice, ecodes, list_devices
+from mpd import MPDClient
 
-device_id = '/dev/input/event6'
+device_id = '/dev/input/event18'
 device = evdev.InputDevice(device_id)
 # print(device.capabilities(verbose=True))
 
@@ -25,6 +26,22 @@ def printMsg(message: str):
     print("MESSAGE@" + message + "@")
 
 
+def playSong():
+    client.add("file:///root/mount/test.MP3")
+    client.next()
+    client.play()
+    print("Playing song")
+
+
+client = MPDClient()               # create client object
+# network timeout in seconds (floats allowed), default: None
+client.timeout = 10
+# timeout for fetching the result of the idle command is handled seperately, default: None
+client.idletimeout = None
+client.connect("localhost", 6600)  # connect to localhost:6600
+print(client.mpd_version)          # print the MPD version
+
+
 message = ""
 for event in device.read_loop():
 
@@ -33,5 +50,6 @@ for event in device.read_loop():
         if cat_event.scancode > 1 and cat_event.scancode < 12:
             message += scancodes[cat_event.scancode]
         elif message != "":
-            printMsg(message)
+            # printMsg(message)
+            playSong()
             message = ""
