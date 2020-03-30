@@ -1,0 +1,2 @@
+evdev
+python-mpd2 
