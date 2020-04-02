@@ -2,6 +2,12 @@
 RFID player for raspberry pi
 
 
+## Running the tests
+
+```bash
+python3 -m unittest discover ./test
+```
+
 # Hints for myself
 user should be memeber of group `input` to access devices
 evdev documentation
