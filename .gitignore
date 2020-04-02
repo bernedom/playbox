@@ -129,6 +129,3 @@ dmypy.json
 .pyre/
 
 .vscode
-bin/
-local/
-pyvenv.cfg

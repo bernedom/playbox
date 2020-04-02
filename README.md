@@ -13,5 +13,5 @@ It is suggested to set up a virtualenv to develop the playbox
 
 ```bash
 pip3 install virtualenv
-virtualenv .
+virtualenv .venv
 ```
