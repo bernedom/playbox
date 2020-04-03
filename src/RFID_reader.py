@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-import sys
 import evdev
-from evdev import InputDevice, ecodes, list_devices
+from evdev import ecodes
 from mpd import MPDClient
 
 device_id = '/dev/input/event18'

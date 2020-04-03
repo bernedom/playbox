@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-import sys
 import evdev
-from evdev import InputDevice, ecodes, list_devices
+from evdev import InputDevice, list_devices
 
 
 def get_devices():
