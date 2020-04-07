@@ -2,8 +2,11 @@
 
 import pytest
 import playbox
+from mpd import MPDClient
 
 
-def test_player():
-    pass
-    #player = playbox.player.Player()
+def test_player(mocker):
+    mocker.patch('mpd.MPDClient.connect')
+    player = playbox.Player.Player()
+    player.connect()
+    MPDClient.connect.assert_called_once()
