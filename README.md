@@ -1,11 +1,11 @@
 # playbox
-RFID player for raspberry pi
+RFID player for raspberry pi. Using Mopidy/MPD to play back songs triggered by RFID cards
 
 
 ## Running the tests
 
 ```bash
-python3 -m unittest discover ./test
+pytest
 ```
 
 # Hints for myself
