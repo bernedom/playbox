@@ -1,4 +1,4 @@
 #!/usr/bin/env python3
 
-from playbox import Player
-from playbox import RFID_Reader
+from playbox.Player import Player
+from playbox.RFID_Reader import RFID_Reader

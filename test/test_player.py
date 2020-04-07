@@ -7,6 +7,6 @@ from mpd import MPDClient
 
 def test_player(mocker):
     mocker.patch('mpd.MPDClient.connect')
-    player = playbox.Player.Player()
+    player = playbox.Player()
     player.connect()
     MPDClient.connect.assert_called_once()
