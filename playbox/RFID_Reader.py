@@ -2,18 +2,21 @@
 
 import evdev
 from evdev import ecodes
-from player import Player
+from playbox.Player import Player
 
 
 class RFID_Reader:
     def __init__(self):
         self.device_id = '/dev/input/event18'
-        self.device = evdev.InputDevice(device_id)
+        self.device = None
         self.player = Player()
         self.player.connect()
 
     def print_device_capabilities(self):
         print(self.device.capabilities(verbose=True))
+
+    def aqcuireDevice(self):
+        self.device = evdev.InputDevice(self.device_id)
 
     def run(self):
         message = ""

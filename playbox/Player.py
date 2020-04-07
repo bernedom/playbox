@@ -15,7 +15,7 @@ class Player:
         self.mpd_client.connect("localhost", 6600)  # connect to localhost:6600
 
     def play(self, song: str):
-        self.mpd_client.add
+        self.mpd_client.clear()
         self.mpd_client.add(song)
         self.mpd_client.next()
         self.mpd_client.play()
