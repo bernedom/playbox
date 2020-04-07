@@ -1,2 +1,3 @@
 evdev
 python-mpd2 
+pytest-mock
