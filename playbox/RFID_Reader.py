@@ -7,7 +7,7 @@ from playbox.Player import Player
 
 class RFID_Reader:
     def __init__(self, player: Player):
-        self.device_id = '/dev/input/event18'
+        self.device_id = '/dev/input/event20'
         self.device = None
         self.player = player
         self.player.connect()
@@ -24,10 +24,9 @@ class RFID_Reader:
             if event.type == ecodes.EV_KEY and event.value == 1:
                 cat_event = evdev.categorize(event)
                 if cat_event.scancode > 1 and cat_event.scancode < 12:
-                    message += scancodes[cat_event.scancode]
+                    message += self.__scancodes[cat_event.scancode]
                 elif message != "":
-                    # printMsg(message)
-                    self.player.play()
+                    self.player.play('file:///root/mount/test.MP3')
                     message = ""
 
     __scancodes = {
