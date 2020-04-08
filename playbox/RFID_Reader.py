@@ -6,10 +6,10 @@ from playbox.Player import Player
 
 
 class RFID_Reader:
-    def __init__(self):
+    def __init__(self, player: Player):
         self.device_id = '/dev/input/event18'
         self.device = None
-        self.player = Player()
+        self.player = player
         self.player.connect()
 
     def print_device_capabilities(self):
