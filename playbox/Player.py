@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from mpd import MPDClient
+import logging
 
 
 class Player:
@@ -15,6 +16,7 @@ class Player:
         self.mpd_client.connect("localhost", 6600)  # connect to localhost:6600
 
     def play(self, song):
+        logging.info("playing song " + song)
         self.mpd_client.clear()
         self.mpd_client.add(song)
         self.mpd_client.next()

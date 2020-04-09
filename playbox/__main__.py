@@ -6,5 +6,5 @@ from playbox.Player import Player
 
 player = Player()
 reader = RFID_Reader(player)
-reader.aqcuireDevice()
+reader.aqcuireDevice("HID 413d:2107")
 reader.run()

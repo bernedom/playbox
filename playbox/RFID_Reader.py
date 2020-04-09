@@ -8,7 +8,7 @@ from playbox.Player import Player
 
 class RFID_Reader:
     def __init__(self, player: Player, device_id=''):
-        #self.device_id = '/dev/input/event20'
+        # self.device_id = '/dev/input/event20'
         self.device_id = device_id
         self.device = None
         self.player = player
@@ -17,12 +17,17 @@ class RFID_Reader:
     def print_device_capabilities(self):
         print(self.device.capabilities(verbose=True))
 
-    def aqcuireDeviceByName(self, name: str):
-        devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
-        logging.debug("Retrieved devices " + str(devices))
+    def aqcuireDevice(self, name: str):
+        devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
+        selectedDevice = [
+            device for device in devices if device.name.find(name) > -1]
 
-    def aqcuireDevice(self):
+        self.device_id = selectedDevice[0].path
+        logging.info("Aqcuiring device " +
+                     str(self.device_id) + " (" + name + ")")
+
         self.device = evdev.InputDevice(self.device_id)
+        del devices
 
     def hasDeviceAqcuired(self):
         return self.device is not None
