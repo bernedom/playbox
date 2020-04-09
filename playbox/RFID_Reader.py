@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
+import logging
 import evdev
 from evdev import ecodes
 from playbox.Player import Player
 
 
 class RFID_Reader:
-    def __init__(self, player: Player):
-        self.device_id = '/dev/input/event20'
+    def __init__(self, player: Player, device_id=''):
+        #self.device_id = '/dev/input/event20'
+        self.device_id = device_id
         self.device = None
         self.player = player
         self.player.connect()
@@ -15,8 +17,15 @@ class RFID_Reader:
     def print_device_capabilities(self):
         print(self.device.capabilities(verbose=True))
 
+    def aqcuireDeviceByName(self, name: str):
+        devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
+        logging.debug("Retrieved devices " + str(devices))
+
     def aqcuireDevice(self):
         self.device = evdev.InputDevice(self.device_id)
+
+    def hasDeviceAqcuired(self):
+        return self.device is not None
 
     def run(self):
         message = ""
