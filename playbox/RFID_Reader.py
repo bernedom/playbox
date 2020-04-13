@@ -19,9 +19,11 @@ class RFID_Reader:
 
     def aqcuireDevice(self, name: str):
         devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
+        logging.debug("Devices from evdev: " + str(devices))
         selectedDevice = [
             device for device in devices if device.name.find(name) > -1]
 
+        logging.error(selectedDevice)
         self.device_id = selectedDevice[0].path
         logging.info("Aqcuiring device " +
                      str(self.device_id) + " (" + name + ")")
