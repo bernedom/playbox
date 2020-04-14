@@ -2,7 +2,7 @@
 
 import pytest
 import playbox
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import MagicMock
 import evdev
 
 

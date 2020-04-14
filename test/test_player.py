@@ -3,10 +3,11 @@
 import pytest
 import playbox
 from mpd import MPDClient
+from unittest.mock import MagicMock, patch
 
 
-def test_player_connection_to_mpd(mocker):
-    mocker.patch('mpd.MPDClient.connect')
+@patch('mpd.MPDClient.connect')
+def test_player_connection_to_mpd(mock_mpd_connect):
     player = playbox.Player()
     player.connect()
-    MPDClient.connect.assert_called_once()
+    mock_mpd_connect.assert_called_once()
