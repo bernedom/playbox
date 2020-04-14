@@ -11,3 +11,6 @@ class AudioLibrary:
 
     def getAudio(self, key: str):
         return self.__audio[key]
+
+    def hasAudio(self, key: str):
+        return key in self.__audio

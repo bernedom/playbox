@@ -11,3 +11,11 @@ def test_song_retrival_by_number_if_number_is_present():
 
     uri = library.getAudio("12345")
     assert uri == "file:///my/song/foo.mp3"
+    assert library.hasAudio("12345")
+
+
+def test_song_retrieval_by_number_if_number_is_not_present():
+    library = playbox.AudioLibrary()
+    assert not library.hasAudio("12345")
+    with pytest.raises(KeyError):
+        library.getAudio("12345")
