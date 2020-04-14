@@ -5,7 +5,7 @@ import playbox
 from mpd import MPDClient
 
 
-def test_player(mocker):
+def test_player_connection_to_mpd(mocker):
     mocker.patch('mpd.MPDClient.connect')
     player = playbox.Player()
     player.connect()
