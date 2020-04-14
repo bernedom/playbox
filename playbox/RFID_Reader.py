@@ -23,7 +23,6 @@ class RFID_Reader:
         selectedDevice = [
             device for device in devices if device.name.find(name) > -1]
 
-        logging.error(selectedDevice)
         self.device_id = selectedDevice[0].path
         logging.info("Aqcuiring device " +
                      str(self.device_id) + " (" + name + ")")
