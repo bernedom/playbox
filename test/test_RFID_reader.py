@@ -8,7 +8,7 @@ import evdev
 
 @pytest.fixture
 def construct_rfid_reader():
-    player = playbox.Player()
+    player = playbox.Player(MagicMock())
     player.connect = MagicMock()
     # mocker.patch.object(playbox.Player, 'connect', autospec=True)
     reader = playbox.RFID_Reader(player)

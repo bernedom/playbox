@@ -42,7 +42,8 @@ class RFID_Reader:
                 if cat_event.scancode > 1 and cat_event.scancode < 12:
                     message += self.__scancodes[cat_event.scancode]
                 elif message != "":
-                    self.player.playuri('file:///root/mount/test.MP3')
+                    # self.player.playuri('file:///root/mount/test.MP3')
+                    self.player.play(message.strip())
                     message = ""
 
     __scancodes = {
