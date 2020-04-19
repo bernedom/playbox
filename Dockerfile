@@ -1,14 +1,24 @@
-FROM alpine:latest
+FROM debian:latest
 
-RUN apk add moc xorg-server vim python3 python2 linux-headers python3-dev gcc g++ mopidy mpc
+ENV DEBIAN_FRONTEND=noninteractive
 
+RUN apt update
+RUN apt install -y gnupg2 wget
+
+RUN wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add -
+RUN wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list
+RUN apt update
+
+RUN apt install -y vim python3 python3-dev gcc g++ mopidy mpc wget libffi-dev python3-pip mopidy-spotify
 RUN pip3 install --upgrade pip
+
+
 # System packages 
 RUN pip3 install Mopidy-MusicBox-Webclient Mopidy-MPD
 
 
 #debug tools
-RUN apk add sox nmap
+RUN apt install -y sox nmap
 
 COPY resource/mopidy.conf /etc/mopidy/mopidy.conf
 COPY requirements.txt /root/
