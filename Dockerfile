@@ -1,6 +1,10 @@
 FROM debian:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
+ARG SPOTIFY_USER
+ARG SPOTIFY_PASS
+ARG SPOTIFY_CLIENT_ID
+ARG SPOTIFY_CLIENT_SECRET
 
 RUN apt update
 RUN apt install -y gnupg2 wget
@@ -16,12 +20,19 @@ RUN pip3 install --upgrade pip
 # System packages 
 RUN pip3 install Mopidy-MusicBox-Webclient Mopidy-MPD
 
-
 #debug tools
-RUN apt install -y sox nmap
+RUN apt install -y sox nmap procps
 
 COPY resource/mopidy.conf /etc/mopidy/mopidy.conf
 COPY requirements.txt /root/
+
+#patch spotify config
+RUN echo "[spotify]" >> /etc/mopidy/mopidy.conf
+RUN echo "password = ${SPOTIFY_PASS}" >> /etc/mopidy/mopidy.conf
+RUN echo "username = ${SPOTIFY_USER}" >> /etc/mopidy/mopidy.conf
+RUN echo "client_id = ${SPOTIFY_CLIENT_ID}" >> /etc/mopidy/mopidy.conf
+RUN echo "client_secret = ${SPOTIFY_CLIENT_SECRET}" >> /etc/mopidy/mopidy.conf
+
 
 # Packages used in the scripts
 RUN pip3 install -r /root/requirements.txt
