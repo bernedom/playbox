@@ -14,3 +14,9 @@ player = Player(library)
 reader = RFID_Reader(player)
 reader.aqcuireDevice("HID 413d:2107")
 reader.run()
+
+
+# TODO stop playing when shutting down
+# TODO read library from file
+# TODO try spotify albums, playlists etc
+# TODO playback from youtube
