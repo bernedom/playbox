@@ -33,3 +33,11 @@ def test_if_audio_added_as_relative_path_is_converted_to_uri():
     library.registerAudio("12345", "./somefile.ogg")
 
     assert library.getAudio("12345").startswith("file://")
+
+
+def test_registering_of_spotify_track_by_url():
+    library = playbox.AudioLibrary()
+    library.registerSpotifyAudio(
+        "12345", "https://open.spotify.com/track/1zB4vmk8tFRmM9UULNzbLB")
+
+    assert library.getAudio("12345") == "spotify:track:1zB4vmk8tFRmM9UULNzbLB"
