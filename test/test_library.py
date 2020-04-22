@@ -41,3 +41,10 @@ def test_registering_of_spotify_track_by_url():
         "12345", "https://open.spotify.com/track/1zB4vmk8tFRmM9UULNzbLB")
 
     assert library.getAudio("12345") == "spotify:track:1zB4vmk8tFRmM9UULNzbLB"
+
+
+def test_malfolrmed_spotify_url_raises_exception():
+    library = playbox.AudioLibrary()
+    with pytest.raises(Exception):
+        library.registerSpotifyAudio(
+            "12345", "https://open.anyweb.com/track/1zB4vmk8tFRmM9UULNzbLB")
