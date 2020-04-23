@@ -7,7 +7,7 @@ ARG SPOTIFY_CLIENT_ID
 ARG SPOTIFY_CLIENT_SECRET
 
 RUN apt update
-RUN apt install -y gnupg2 wget
+RUN apt install -y gnupg2 wget apt-transport-https ca-certificates
 
 RUN wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add -
 RUN wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list
