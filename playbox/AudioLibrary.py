@@ -2,6 +2,7 @@
 
 import pathlib
 import logging
+import re
 
 
 class AudioLibrary:
@@ -16,6 +17,16 @@ class AudioLibrary:
         logging.debug(
             "Matching key {} to audio file {}".format(key, audio_path))
         self.__audio[key] = pathlib.Path(audio_path).as_uri()
+
+    def registerSpotifyAudio(self, key: str, url: str):
+        pattern = re.compile(
+            "^(http[s]?:\\/\\/)(open\\.spotify\\.com)\\/(track)\\/([a-zA-Z\\d]+)")
+        match = pattern.match(url)
+        if match:
+            self.__audio[key] = "spotify:{}:{}".format(
+                match.group(3),  match.group(4))
+        else:
+            raise Exception("Not a spotify URL")
 
     def getAudio(self, key: str):
         return self.__audio[key]
