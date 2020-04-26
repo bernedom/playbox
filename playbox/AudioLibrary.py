@@ -25,14 +25,18 @@ class AudioLibrary:
         self.__audio[key] = pathlib.Path(audio_path).as_uri()
 
     def registerSpotifyAudio(self, key: str, url: str):
-        pattern = re.compile(
-            "^(http[s]?:\\/\\/)(open\\.spotify\\.com)\\/(track)\\/([a-zA-Z\\d]+)")
-        match = pattern.match(url)
+        tokenpattern = re.compile("^(spotify):(track):([a-zA-Z\\d]+)")
+        match = tokenpattern.match(url)
+
+        if not match:
+            urlpattern = re.compile(
+                "^(?:http[s]?:\\/\\/)(open\\.spotify\\.com)\\/(track)\\/([a-zA-Z\\d]+)")
+            match = urlpattern.match(url)
         if match:
             self.__audio[key] = "spotify:{}:{}".format(
-                match.group(3),  match.group(4))
+                match.group(2),  match.group(3))
         else:
-            raise Exception("Not a spotify URL")
+            raise Exception("Not a spotify URL or pattern")
 
     def saveToCsv(self, path):
 
