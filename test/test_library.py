@@ -73,7 +73,7 @@ def test_malfolrmed_spotify_url_raises_exception():
 def test_saving_to_file():
     library = playbox.AudioLibrary()
     library.registerAudio("12345", "/my/audio/foo.ogg")
-    library.registerAudio("56789", "/my/audio/foo2.ogg")
+    library.registerSpotifyAudio("56789", "spotify:track:abcdef")
     out_file = tempfile.NamedTemporaryFile()
 
     library.saveToCsv(out_file.name)
@@ -83,7 +83,7 @@ def test_saving_to_file():
 
     f.close()
     assert "12345;file:///my/audio/foo.ogg\n" in file_contents
-    assert "56789;file:///my/audio/foo2.ogg\n" in file_contents
+    assert "56789;spotify:track:abcdef\n" in file_contents
 
 
 def test_reading_from_csv_file():
@@ -91,12 +91,12 @@ def test_reading_from_csv_file():
     out_file = tempfile.NamedTemporaryFile()
     f = open(out_file.name, 'w')
     f.writelines(["12345;file:///my/audio/foo.ogg\n",
-                  "56789;file:///my/audio/foo2.ogg\n"])
+                  "56789;spotify:track:abcdef\n"])
     f.close()
 
     library.readFromCsv(out_file.name)
     assert "file:///my/audio/foo.ogg" == library.getAudio("12345")
-    assert "file:///my/audio/foo2.ogg" == library.getAudio("56789")
+    assert "spotify:track:abcdef" == library.getAudio("56789")
 
 
 def test_saving_csv_file_creates_directory():

@@ -56,7 +56,10 @@ class AudioLibrary:
         f.close()
         reader = csv.reader(open(path, 'r'), delimiter=";")
         for row in reader:
-            self.registerAudio(row[0], row[1])
+            try:
+                self.registerSpotifyAudio(row[0], row[1])
+            except Exception:
+                self.registerAudio(row[0], row[1])
 
     def getAudio(self, key: str):
         return self.__audio[key]
