@@ -2,6 +2,7 @@
 
 import pytest
 import playbox
+import tempfile
 
 
 def test_audio_retrival_by_number_if_number_is_present():
@@ -48,3 +49,19 @@ def test_malfolrmed_spotify_url_raises_exception():
     with pytest.raises(Exception):
         library.registerSpotifyAudio(
             "12345", "https://open.anyweb.com/track/1zB4vmk8tFRmM9UULNzbLB")
+
+
+def test_saving_to_file():
+    library = playbox.AudioLibrary()
+    library.registerAudio("12345", "/my/audio/foo.ogg")
+    library.registerAudio("56789", "/my/audio/foo2.ogg")
+    out_file = tempfile.NamedTemporaryFile()
+
+    library.saveToCsv(out_file.name)
+
+    f = open(out_file.name, 'r')
+    file_contents = f.readlines()
+
+    f.close()
+    assert "12345;file:///my/audio/foo.ogg\n" in file_contents
+    assert "56789;file:///my/audio/foo2.ogg\n" in file_contents

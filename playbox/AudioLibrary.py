@@ -3,6 +3,7 @@
 import pathlib
 import logging
 import re
+import csv
 
 
 class AudioLibrary:
@@ -27,6 +28,12 @@ class AudioLibrary:
                 match.group(3),  match.group(4))
         else:
             raise Exception("Not a spotify URL")
+
+    def saveToCsv(self, path):
+        logging.info("Saving to {}".format(path))
+        writer = csv.writer(open(path, 'w'), delimiter=";")
+        for key, value in self.__audio.items():
+            writer.writerow([key, value])
 
     def getAudio(self, key: str):
         return self.__audio[key]
