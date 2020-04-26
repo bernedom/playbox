@@ -35,6 +35,9 @@ class AudioLibrary:
             raise Exception("Not a spotify URL")
 
     def saveToCsv(self, path):
+
+        pathlib.Path(pathlib.Path(path).parent.absolute()).mkdir(
+            parents=True, exist_ok=True)
         logging.info("Saving to {}".format(path))
 
         writer = csv.writer(open(path, 'w'), delimiter=";")

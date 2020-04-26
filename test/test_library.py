@@ -3,6 +3,7 @@
 import pytest
 import playbox
 import tempfile
+import os
 
 
 def test_audio_retrival_by_number_if_number_is_present():
@@ -88,3 +89,13 @@ def test_reading_from_csv_file():
     library.readFromCsv(out_file.name)
     assert "file:///my/audio/foo.ogg" == library.getAudio("12345")
     assert "file:///my/audio/foo2.ogg" == library.getAudio("56789")
+
+
+def test_saving_csv_file_creates_directory():
+    library = playbox.AudioLibrary()
+
+    file_path = os.path.join(tempfile.mkdtemp(), "not-existing")
+    assert not os.path.exists(file_path)
+
+    library.saveToCsv(file_path)
+    assert os.path.exists(file_path)
