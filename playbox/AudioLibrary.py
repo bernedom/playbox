@@ -12,6 +12,11 @@ class AudioLibrary:
         self.__audio = {}
 
     def registerAudio(self, key: str, audio_path: str):
+
+        if(audio_path.startswith("file:///")):
+            self.__audio[key] = audio_path
+            return
+
         if(not pathlib.Path(audio_path).is_absolute()):
             audio_path = pathlib.Path(audio_path).absolute()
 
@@ -31,9 +36,20 @@ class AudioLibrary:
 
     def saveToCsv(self, path):
         logging.info("Saving to {}".format(path))
+
         writer = csv.writer(open(path, 'w'), delimiter=";")
         for key, value in self.__audio.items():
             writer.writerow([key, value])
+
+    def readFromCsv(self, path):
+        logging.info("Reading from {}".format(path))
+        f = open(path, 'r')
+        lss = f.readlines()
+        logging.warning(lss)
+        f.close()
+        reader = csv.reader(open(path, 'r'), delimiter=";")
+        for row in reader:
+            self.registerAudio(row[0], row[1])
 
     def getAudio(self, key: str):
         return self.__audio[key]

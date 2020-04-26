@@ -15,6 +15,16 @@ def test_audio_retrival_by_number_if_number_is_present():
     assert library.hasAudio("12345")
 
 
+def test_audio_retrival_by_number_if_number_is_present_and_registered_with_uri():
+    # set up
+    library = playbox.AudioLibrary()
+    library.registerAudio("12345", "file:///my/audio/foo.ogg")
+
+    uri = library.getAudio("12345")
+    assert uri == "file:///my/audio/foo.ogg"
+    assert library.hasAudio("12345")
+
+
 def test_audio_retrieval_by_number_if_number_is_not_present():
     library = playbox.AudioLibrary()
     assert not library.hasAudio("12345")
@@ -65,3 +75,16 @@ def test_saving_to_file():
     f.close()
     assert "12345;file:///my/audio/foo.ogg\n" in file_contents
     assert "56789;file:///my/audio/foo2.ogg\n" in file_contents
+
+
+def test_reading_from_csv_file():
+    library = playbox.AudioLibrary()
+    out_file = tempfile.NamedTemporaryFile()
+    f = open(out_file.name, 'w')
+    f.writelines(["12345;file:///my/audio/foo.ogg\n",
+                  "56789;file:///my/audio/foo2.ogg\n"])
+    f.close()
+
+    library.readFromCsv(out_file.name)
+    assert "file:///my/audio/foo.ogg" == library.getAudio("12345")
+    assert "file:///my/audio/foo2.ogg" == library.getAudio("56789")
