@@ -1,5 +1,5 @@
 # playbox
-RFID player for raspberry pi. Using Mopidy/MPD to play back songs triggered by RFID cards
+RFID player for raspberry pi. Using Mopidy/MPD to play back songs triggered by RFID cards. This is currently in very early development and should be considered a hack. There likely many security and stability issues with the code. Use at your own risk. 
 
 # Installation
 
@@ -11,6 +11,14 @@ Start mopidy by using
 ```bash 
 systemctl enable mopidy
 systemclt start mopidy
+```
+
+Until a proper python package is there pull this github repo into a folder and copy the run.py and playbox module into `/opt/`. Put the playbox.service file into `/lib/systemd/system/playbox.service` 
+then reconfigure systemd
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable playbox.service
 ```
 
 # Registering audio
