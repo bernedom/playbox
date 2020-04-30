@@ -5,7 +5,7 @@ Description=Systemd script to start playbox an RFID audio player
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 -m /opt/playbox/run.py
+ExecStart=/usr/bin/python3 -m /opt/playbox/run.py > /var/playbox/playbox.log
 
  [Install]
  WantedBy=multi-user.target
