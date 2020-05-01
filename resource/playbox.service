@@ -1,0 +1,12 @@
+#Systemd startup script
+
+[Unit]
+Description=Systemd script to start playbox an RFID audio player
+After=mopidy.service
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python3 /opt/playbox/run.py > /var/playbox/playbox.log
+
+[Install]
+WantedBy=multi-user.target
