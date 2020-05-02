@@ -25,12 +25,12 @@ class AudioLibrary:
         self.__audio[key] = pathlib.Path(audio_path).as_uri()
 
     def registerSpotifyAudio(self, key: str, url: str):
-        tokenpattern = re.compile("^(spotify):(track):([a-zA-Z\\d]+)")
+        tokenpattern = re.compile("^(spotify):(track|album):([a-zA-Z\\d]+)")
         match = tokenpattern.match(url)
 
         if not match:
             urlpattern = re.compile(
-                "^(?:http[s]?:\\/\\/)(open\\.spotify\\.com)\\/(track)\\/([a-zA-Z\\d]+)")
+                "^(?:http[s]?:\\/\\/)(open\\.spotify\\.com)\\/(track|album)\\/([a-zA-Z\\d]+)")
             match = urlpattern.match(url)
         if match:
             self.__audio[key] = "spotify:{}:{}".format(

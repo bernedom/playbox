@@ -41,3 +41,12 @@ def test_player_does_not_play_back_unregistered_file(mock_mpd_clear, mock_mpd_ne
     mock_mpd_next.assert_not_called()
     mock_mpd_add.assert_not_called()
     mock_mpd_play.assert_not_called()
+
+
+@patch('mpd.MPDClient.stop')
+def test_spot_token_calls_mpc_stop(mock_mpd_stop):
+    library = playbox.AudioLibrary()
+    player = playbox.Player(library)
+    player.registerStop("99999")
+    player.play("99999")
+    mock_mpd_stop.assert_called_once()

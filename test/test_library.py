@@ -55,6 +55,22 @@ def test_registering_of_spotify_track_by_url():
     assert library.getAudio("12345") == "spotify:track:1zB4vmk8tFRmM9UULNzbLB"
 
 
+def test_register_spotify_album_by_url():
+    library = playbox.AudioLibrary()
+    library.registerSpotifyAudio(
+        "12345", "https://open.spotify.com/album/0IknFOJldq3e8NUXKrYrIO")
+
+    assert library.getAudio("12345") == "spotify:album:0IknFOJldq3e8NUXKrYrIO"
+
+
+def test_register_spotify_album_by_tuple():
+    library = playbox.AudioLibrary()
+    library.registerSpotifyAudio(
+        "12345", "spotify:album:0IknFOJldq3e8NUXKrYrIO")
+
+    assert library.getAudio("12345") == "spotify:album:0IknFOJldq3e8NUXKrYrIO"
+
+
 def test_registering_of_spotify_track_by_tuple():
     library = playbox.AudioLibrary()
     library.registerSpotifyAudio(
