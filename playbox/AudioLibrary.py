@@ -50,10 +50,6 @@ class AudioLibrary:
 
     def readFromCsv(self, path):
         logging.info("Reading from {}".format(path))
-        f = open(path, 'r')
-        lss = f.readlines()
-        logging.warning(lss)
-        f.close()
         reader = csv.reader(open(path, 'r'), delimiter=";")
         for row in reader:
             try:

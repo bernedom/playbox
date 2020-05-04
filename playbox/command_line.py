@@ -16,5 +16,5 @@ def main():
     player.registerStop("03331943")
     reader = RFID_Reader(player)
     reader.aqcuireDevice("HID 413d:2107")
-    player.playuri("file:///opt/playbox/ready.mp3")
+    player.playuri("file:///var/playbox/ready.mp3")
     reader.run()
