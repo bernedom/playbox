@@ -15,9 +15,8 @@ setup(
     packages=['playbox'],
     entry_points={'console_scripts': ['playbox=playbox.command_line:main']},
 
-    #package_data={'playbox': ['ready.mp3']}
-    data_files=[('resource', ['resource/ready.mp3',
-                              'resource/mopidy.conf']),
+    data_files=[('resource', ['resource/ready.mp3']),
+                ('/etc/mopidy/', ['resource/mopidy.conf']),
                 ('/lib/systemd/system/', ['resource/playbox.service'])]
 
 
