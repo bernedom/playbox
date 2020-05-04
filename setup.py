@@ -13,12 +13,12 @@ setup(
     license='GPLv3',
     url='https: // github.com/bernedom/playbox',
     packages=['playbox'],
-    entry_points={'console_scripts': ['tvb=tvb:main']},
-    scripts=['run.py'],
+    entry_points={'console_scripts': ['playbox=playbox.command_line:main']},
 
     #package_data={'playbox': ['ready.mp3']}
     data_files=[('resource', ['resource/ready.mp3',
-                              'resource/mopidy.conf', 'resource/playbox.service'])]
+                              'resource/mopidy.conf']),
+                ('/lib/systemd/system/', ['resource/playbox.service'])]
 
 
 )
