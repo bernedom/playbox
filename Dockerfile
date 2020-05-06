@@ -18,7 +18,7 @@ RUN pip3 install --upgrade pip
 
 
 # System packages 
-RUN pip3 install Mopidy-MusicBox-Webclient Mopidy-MPD
+RUN pip3 install Mopidy-MPD Mopidy-Iris
 
 #debug tools
 RUN apt install -y sox nmap procps
