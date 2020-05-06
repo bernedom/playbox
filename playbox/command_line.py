@@ -2,9 +2,19 @@
 
 from time import sleep
 from playbox import AudioLibrary, Player, RFID_Reader
+import atexit
+
+player = None
+
+
+def shutdown():
+    if player is not None:
+        player.stop()
 
 
 def main():
+    global player
+    atexit.register(shutdown)
     library = AudioLibrary()
 
     library.readFromCsv("/var/playbox/audio.csv")

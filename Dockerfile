@@ -23,13 +23,14 @@ RUN pip3 install Mopidy-MPD Mopidy-Iris
 #debug tools
 RUN apt install -y sox nmap procps
 
-COPY dist/playbox-0.0.1a0.tar.gz /root/playbox-install.tar.gz
+
 COPY requirements.txt /root/
 
 # Packages used in the scripts
 RUN pip3 install -r /root/requirements.txt
 
 # install playbox
+COPY dist/playbox-0.0.1a0.tar.gz /root/playbox-install.tar.gz
 RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-0.0.1a0 && python3 setup.py install
 
 #patch spotify config
