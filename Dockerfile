@@ -42,4 +42,4 @@ RUN echo "client_secret = ${SPOTIFY_CLIENT_SECRET}" >> /etc/mopidy/mopidy.conf
 
 EXPOSE 10000
 
-CMD mopidy --config /etc/mopidy/mopidy.conf
+CMD mopidy --config /etc/mopidy/mopidy.conf & playbox
