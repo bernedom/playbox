@@ -9,7 +9,7 @@ Restart=always
 ExecStartPre=-/usr/bin/docker stop %n
 ExecStartPre=-/usr/bin/docker rm %n
 #ExecStartPre=/usr/bin/docker pull redis
-ExecStart=/usr/bin/docker run -v $(pwd)/resource/audio.csv:/var/playbox/audio.csv --device /dev/snd --privileged -p 10000:10000 --rm --name %n playbox
+ExecStart=/usr/bin/docker run -v /home/pi/audio.csv:/var/playbox/audio.csv --device /dev/snd --privileged -p 6680:6680 --rm --name %n playbox
 
 [Install]
 WantedBy=multi-user.target

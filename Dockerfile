@@ -23,7 +23,6 @@ RUN pip3 install Mopidy-MPD Mopidy-Iris
 #debug tools
 RUN apt install -y sox nmap procps
 
-
 COPY requirements.txt /root/
 
 # Packages used in the scripts
