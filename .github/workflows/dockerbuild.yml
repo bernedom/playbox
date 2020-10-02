@@ -6,13 +6,16 @@ name: Docker Image CI
 on:
   push:
   pull_request:
-    
-jobs:
 
+jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - uses: actions/checkout@v2
+      - name: Package python module
+        run: |
+          python setup.py sdist
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
