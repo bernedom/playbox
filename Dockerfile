@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:10.5
 
 ENV DEBIAN_FRONTEND=noninteractive
 ARG SPOTIFY_USER
@@ -32,13 +32,19 @@ RUN pip3 install -r /root/requirements.txt
 COPY dist/playbox-0.0.1a0.tar.gz /root/playbox-install.tar.gz
 RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-0.0.1a0 && python3 setup.py install
 
-#patch spotify config
+#patch spotify config/etc/mopidy/mopidy.conf
 RUN echo "[spotify]" >> /etc/mopidy/mopidy.conf
 RUN echo "password = ${SPOTIFY_PASS}" >> /etc/mopidy/mopidy.conf
 RUN echo "username = ${SPOTIFY_USER}" >> /etc/mopidy/mopidy.conf
 RUN echo "client_id = ${SPOTIFY_CLIENT_ID}" >> /etc/mopidy/mopidy.conf
 RUN echo "client_secret = ${SPOTIFY_CLIENT_SECRET}" >> /etc/mopidy/mopidy.conf
 
+RUN echo "" >> /etc/mopidy/mopidy.conf
+RUN echo "[http]" >> /etc/mopidy/mopidy.conf
+RUN echo "hostname = 0.0.0.0" >> /etc/mopidy/mopidy.conf
+
+
 EXPOSE 10000
 
 CMD mopidy --config /etc/mopidy/mopidy.conf & playbox
+
