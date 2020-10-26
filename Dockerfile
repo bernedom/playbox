@@ -21,7 +21,9 @@ RUN pip3 install --upgrade pip
 RUN pip3 install Mopidy-MPD Mopidy-Iris
 
 #debug tools
-RUN apt install -y sox nmap procps
+RUN apt install -y sox nmap procps libsox-fmt-mp3
+
+RUN apt install -y alsa-utils
 
 COPY requirements.txt /root/
 
@@ -38,6 +40,9 @@ RUN echo "password = ${SPOTIFY_PASS}" >> /etc/mopidy/mopidy.conf
 RUN echo "username = ${SPOTIFY_USER}" >> /etc/mopidy/mopidy.conf
 RUN echo "client_id = ${SPOTIFY_CLIENT_ID}" >> /etc/mopidy/mopidy.conf
 RUN echo "client_secret = ${SPOTIFY_CLIENT_SECRET}" >> /etc/mopidy/mopidy.conf
+
+RUN echo "defaults.pcm.card 1" >> /etc/asound.conf
+RUN echo "defaults.ctl.card 1" >> /etc/asound.conf
 
 EXPOSE 10000
 
