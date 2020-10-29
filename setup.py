@@ -15,8 +15,7 @@ setup(
     packages=['playbox'],
     entry_points={'console_scripts': ['playbox=playbox.command_line:main']},
 
-    data_files=[('/lib/systemd/system/', ['resource/playbox.service']),
-                ('/var/playbox/', ['resource/ready.mp3'])]
+    data_files=[('/var/playbox/', ['resource/ready.mp3'])]
 
 
 )
