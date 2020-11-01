@@ -24,6 +24,9 @@ def main():
     # TODO move configuration to a config file and create setup routine
     player = Player(library)
     player.registerStop("03331943")
+    player.registerNext("04029591")
+    player.registerPrevious("03331879")
+
     reader = RFID_Reader(player)
     reader.aqcuireDevice("HID 413d:2107")
     player.playuri("file:///var/playbox/ready.mp3")
