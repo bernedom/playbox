@@ -33,8 +33,8 @@ COPY requirements.txt /root/
 RUN pip3 install -r /root/requirements.txt
 
 # install playbox
-COPY dist/playbox-0.0.1a0.tar.gz /root/playbox-install.tar.gz
-RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-0.0.1a0 && python3 setup.py install
+COPY dist/playbox-0.1.0.tar.gz /root/playbox-install.tar.gz
+RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-0.1.0 && python3 setup.py install
 
 #patch spotify config/etc/mopidy/mopidy.conf
 RUN echo "[spotify]" >> /etc/mopidy/mopidy.conf
