@@ -59,3 +59,12 @@ def test_next_token_calls_mpc_next(mock_mpd_next):
     player.registerNext("99999")
     player.play("99999")
     mock_mpd_next.assert_called_once()
+
+
+@patch('mpd.MPDClient.previous')
+def test_previous_token_calls_mpc_previous(mock_mpd_previous):
+    library = playbox.AudioLibrary()
+    player = playbox.Player(library)
+    player.registerPrevious("99999")
+    player.play("99999")
+    mock_mpd_previous.assert_called_once()
