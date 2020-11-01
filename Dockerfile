@@ -1,6 +1,8 @@
 FROM debian:10.5
 
 ENV DEBIAN_FRONTEND=noninteractive
+# TODO convert to runtime-args not building args 
+# TODO deploy to dockerhub
 ARG SPOTIFY_USER
 ARG SPOTIFY_PASS
 ARG SPOTIFY_CLIENT_ID

@@ -5,8 +5,9 @@ from playbox.Player import Player
 from playbox.AudioLibrary import AudioLibrary
 
 
-# TODO Move player connect out of RFID Reader
-# TODO Remove sleep(5.) and loop until connection or timeout
-# TODO read library from file
-# TODO try spotify albums, playlists etc
 # TODO playback from youtube
+# TODO forward (04029591) /backward (03331879) tokens
+# TODO add possibility to add plain text album name to csv
+# TODO add spoken error messages
+# TODO ad hot-reloading csv file when changed
+# TODO store last scanned ID in a readable file
