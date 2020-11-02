@@ -16,7 +16,11 @@ class Player:
         # timeout for fetching the result of the idle command is handled seperately, default: None
         self.mpd_client.idletimeout = None
         self.__library = audio_library
+        # TODO put function pointers/lambda or similar into a dict
+        # TODO handle duplicate registration (probably done by moving to a dict)
         self.__stopKey = ""
+        self.__nextKey = ""
+        self.__previousKey = ""
 
     def connect(self, port=6600):
         self.mpd_client.connect("localhost", 6600)  # connect to localhost:6600
@@ -24,9 +28,22 @@ class Player:
     def registerStop(self, key: str):
         self.__stopKey = key
 
+    def registerNext(self, key: str):
+        self.__nextKey = key
+
+    def registerPrevious(self, key: str):
+        self.__previousKey = key
+
+    # TODO rename to handle token
     def play(self, key: str):
         if key == self.__stopKey:
             self.stop()
+            return
+        elif key == self.__nextKey:
+            self.next()
+            return
+        elif key == self.__previousKey:
+            self.previous()
             return
 
         try:
@@ -37,6 +54,14 @@ class Player:
     def stop(self):
         logging.info("Stopping play")
         self.mpd_client.stop()
+
+    def next(self):
+        logging.info("Jumping to next track")
+        self.mpd_client.next()
+
+    def previous(self):
+        logging.info("Jumping to previous track")
+        self.mpd_client.previous()
 
     def playuri(self, audio_file):
         logging.info("playing audio_file " + audio_file)
