@@ -32,6 +32,17 @@ jobs:
         run: |
           pip install pytest
           pytest
+
+  dockerbuild:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
       - name: Package python module
-        run: |
-          python setup.py sdist
+        run:  python setup.py sdist
+
+      - name: Build the docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
