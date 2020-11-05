@@ -26,4 +26,4 @@ class stdin_Reader(RFID_Reader):
                 self.player.play(message.strip())
                 message = ""
     
-    }
+    

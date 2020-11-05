@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
 from time import sleep
-from playbox import AudioLibrary, Player, RFID_Reader
+from playbox import AudioLibrary, Player, RFID_Reader, stdin_Reader
 import atexit
+import argparse
 
 player = None
-
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", help="Run in dev mode - RFID input is emulated over keyboard")
+parser.parse_args()
 
 def shutdown():
     if player is not None:
@@ -13,6 +16,7 @@ def shutdown():
 
 
 def main():
+    global parser
     global player
     atexit.register(shutdown)
     library = AudioLibrary()
@@ -27,7 +31,11 @@ def main():
     player.registerNext("04029591")
     player.registerPrevious("03331879")
 
-    reader = RFID_Reader(player)
+    reader = None
+    if parser.d:
+        reader = stdin_Reader(player)
+    else:
+        reader = RFID_Reader(player)
     reader.aqcuireDevice("HID 413d:2107")
     player.playuri("file:///var/playbox/ready.mp3")
     reader.run()
