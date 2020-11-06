@@ -7,8 +7,8 @@ import argparse
 
 player = None
 parser = argparse.ArgumentParser()
-parser.add_argument("-d", help="Run in dev mode - RFID input is emulated over keyboard")
-parser.parse_args()
+parser.add_argument("-d", help="Run in dev mode - RFID input is emulated over keyboard", action='store_true')
+arguments = parser.parse_args()
 
 def shutdown():
     if player is not None:
@@ -32,7 +32,7 @@ def main():
     player.registerPrevious("03331879")
 
     reader = None
-    if parser.d:
+    if arguments.d:
         reader = stdin_Reader(player)
     else:
         reader = RFID_Reader(player)
