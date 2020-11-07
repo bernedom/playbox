@@ -3,6 +3,7 @@ FROM debian:10.5
 ENV DEBIAN_FRONTEND=noninteractive
 # TODO convert to runtime-args not building args 
 # TODO deploy to dockerhub
+# TODO add runtime argument to run in development mode
 ARG SPOTIFY_USER
 ARG SPOTIFY_PASS
 ARG SPOTIFY_CLIENT_ID
@@ -32,10 +33,6 @@ COPY requirements.txt /root/
 # Packages used in the scripts
 RUN pip3 install -r /root/requirements.txt
 
-# install playbox
-COPY dist/playbox-0.1.0.tar.gz /root/playbox-install.tar.gz
-RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-0.1.0 && python3 setup.py install
-
 #patch spotify config/etc/mopidy/mopidy.conf
 RUN echo "[spotify]" >> /etc/mopidy/mopidy.conf
 RUN echo "password = ${SPOTIFY_PASS}" >> /etc/mopidy/mopidy.conf
@@ -50,7 +47,12 @@ RUN echo "hostname = 0.0.0.0" >> /etc/mopidy/mopidy.conf
 RUN echo "defaults.pcm.card 1" >> /etc/asound.conf
 RUN echo "defaults.ctl.card 1" >> /etc/asound.conf
 
+# install playbox
+COPY dist/playbox-0.1.0.tar.gz /root/playbox-install.tar.gz
+RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-0.1.0 && python3 setup.py install
+
+
 EXPOSE 10000
 
-CMD mopidy --config /etc/mopidy/mopidy.conf & playbox
+CMD mopidy --config /etc/mopidy/mopidy.conf & playbox ${PLAYBOX_DEBUG}
 
