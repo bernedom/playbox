@@ -8,7 +8,12 @@ TimeoutStartSec=0
 Restart=always
 ExecStartPre=-/usr/bin/docker stop %n
 ExecStartPre=-/usr/bin/docker rm %n
-ExecStart=/usr/bin/docker run -v /home/pi/audio.csv:/var/playbox/audio.csv -v /dev/bus/usb:/dev/bus/usb --device /dev/snd --privileged -p 6680:6680 --network host --rm --name %n playbox
+ExecStart=/usr/bin/docker run -v /home/pi/audio.csv:/var/playbox/audio.csv \
+     -v /var/playbox/spotify.conf:/etc/mopidy/spotify.conf \
+     -v /dev/bus/usb:/dev/bus/usb \
+     --device /dev/snd --privileged \
+     -p 6680:6680 --network host --rm \
+     --name %n playbox:latest
 ExecStop=-/usr/bin/docker stop %n
 ExecStopPost=-/usr/bin/docker rm %n
 
