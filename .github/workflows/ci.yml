@@ -55,6 +55,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
+
       - name: build and push hack to DockerHub
         # Master push without a release
         if: github.event.action != 'published' && github.ref != 'refs/heads/master'
@@ -90,4 +101,4 @@ jobs:
           push: false
           tags: |
             bernedom/playbox:latest
-            bernedom/playbox:${GITHUB_REF##*/}
+            bernedom/playbox:${{ steps.vars.outputs.tag }}
