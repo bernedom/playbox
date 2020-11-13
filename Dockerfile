@@ -35,8 +35,8 @@ RUN echo "defaults.pcm.card 1" >> /etc/asound.conf
 RUN echo "defaults.ctl.card 1" >> /etc/asound.conf
 
 # install playbox
-COPY dist/playbox-0.1.2.tar.gz /root/playbox-install.tar.gz
-RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-0.1.2 && python3 setup.py install
+COPY dist/playbox-0.1.3.tar.gz /root/playbox-install.tar.gz
+RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-0.1.3 && python3 setup.py install
 
 EXPOSE 10000
 
