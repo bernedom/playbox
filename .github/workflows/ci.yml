@@ -100,7 +100,7 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64, linux/arm/v7
-          push: false
+          push: true
           tags: |
             bernedom/playbox:latest
             bernedom/playbox:${{ steps.vars.outputs.tag }}
