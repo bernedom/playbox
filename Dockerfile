@@ -2,8 +2,6 @@ FROM debian:10.5
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# TODO deploy to dockerhub
-
 RUN apt update
 RUN apt install -y gnupg2 wget apt-transport-https ca-certificates
 
@@ -15,17 +13,14 @@ RUN apt install -y vim python3 python3-dev gcc g++ mopidy mpc wget libffi-dev py
 RUN pip3 install --upgrade pip
 
 
-# System packages 
+# Python packages for the system
 RUN pip3 install Mopidy-MPD Mopidy-Iris
 
-#debug tools
-RUN apt install -y sox nmap procps libsox-fmt-mp3
-
-RUN apt install -y alsa-utils
-
-COPY requirements.txt /root/
+#debug tools TODO remove for production containers
+RUN apt install -y sox nmap procps libsox-fmt-mp3 alsa-utils
 
 # Packages used in the scripts
+COPY requirements.txt /root/
 RUN pip3 install -r /root/requirements.txt
 
 RUN echo "[http]" >> /etc/mopidy/mopidy.conf
@@ -39,6 +34,7 @@ COPY dist/playbox-0.1.3.tar.gz /root/playbox-install.tar.gz
 RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-0.1.3 && python3 setup.py install
 
 EXPOSE 10000
+EXPOSE 6680
 
 CMD mopidy --config /etc/mopidy & playbox ${PLAYBOX_DEBUG}
 
