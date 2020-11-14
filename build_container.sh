@@ -14,6 +14,6 @@ echo "username = ${SPOTIFY_USER}" >> ${CURRENT_DIR}/.vscode/spotify.conf
 echo "client_id = ${SPOTIFY_CLIENT_ID}" >> ${CURRENT_DIR}/.vscode/spotify.conf
 echo "client_secret = ${SPOTIFY_CLIENT_SECRET}" >> ${CURRENT_DIR}/.vscode/spotify.conf
 
-docker build . -t playbox --rm
+docker build . -t playbox --build-arg PLAYBOX_PYTHON_VERSION=$(python setup.py --version) --rm
 
 

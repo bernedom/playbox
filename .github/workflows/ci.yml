@@ -59,14 +59,14 @@ jobs:
 
       - name: Set output
         id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+        run: |
+          echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+          echo ::set-output name=playbox-version::$(git describe --tags)
 
       - name: Check output
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
-          echo $RELEASE_VERSION
           echo ${{ steps.vars.outputs.tag }}
+          echo ${{ steps.vars.outputs.playbox-version }}
 
       - name: build and push hack to DockerHub
         # Master push without a release
@@ -77,6 +77,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64, linux/arm/v7
           push: true
+          build-args: |
+            PLAYBOX_PYTHON_VERSION=${{ steps.vars.outputs.playbox-version }}
           tags: |
             bernedom/playbox:hack
 
@@ -89,6 +91,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64, linux/arm/v7
           push: true
+          build-args: |
+            PLAYBOX_PYTHON_VERSION=${{ steps.vars.outputs.playbox-version }}
           tags: |
             bernedom/playbox:develop
 
@@ -101,6 +105,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64, linux/arm/v7
           push: true
+          build-args: |
+            PLAYBOX_PYTHON_VERSION=${{ steps.vars.outputs.playbox-version }}
           tags: |
             bernedom/playbox:latest
             bernedom/playbox:${{ steps.vars.outputs.tag }}
