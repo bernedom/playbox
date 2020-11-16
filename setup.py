@@ -2,6 +2,8 @@
 
 from setuptools import setup
 
+# TODO switch to pyptoject.toml
+
 setup(
     name='playbox',
     use_scm_version=True,
@@ -16,6 +18,4 @@ setup(
     entry_points={'console_scripts': ['playbox=playbox.command_line:main']},
 
     data_files=[('/var/playbox/', ['resource/ready.mp3'])]
-
-
 )

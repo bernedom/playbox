@@ -61,7 +61,7 @@ jobs:
         id: vars
         run: |
           echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-          echo ::set-output name=playbox-version::$(git describe --tags)
+          echo ::set-output name=playbox-version::$(python3 setup.py --version)
 
       - name: Check output
         run: |
