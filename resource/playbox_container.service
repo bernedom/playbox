@@ -14,7 +14,7 @@ ExecStart=/usr/bin/docker run -v /home/pi/audio.csv:/var/playbox/audio.csv \
      -v /dev/bus/usb:/dev/bus/usb \
      -v /home/pi/audio:/var/playbox/audio \
      --device /dev/snd --privileged \
-     -p 6680:6680 --network host --rm \
+     -p 6680:6680 --rm \
      --name %n bernedom/playbox:latest
 ExecStop=-/usr/bin/docker stop %n
 ExecStopPost=-/usr/bin/docker rm %n
