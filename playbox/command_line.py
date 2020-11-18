@@ -7,8 +7,10 @@ import argparse
 
 player = None
 parser = argparse.ArgumentParser()
-parser.add_argument("-d", help="Run in dev mode - RFID input is emulated over keyboard", action='store_true')
+parser.add_argument(
+    "-d", help="Run in dev mode - RFID input is emulated over keyboard", action='store_true')
 arguments = parser.parse_args()
+
 
 def shutdown():
     if player is not None:
@@ -23,7 +25,7 @@ def main():
 
     library.readFromCsv("/var/playbox/audio.csv")
     # TODO  sleep because of race condition on startup
-    sleep(5.0)
+    sleep(10.0)
 
     # TODO move configuration to a config file and create setup routine
     player = Player(library)
