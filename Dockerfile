@@ -39,6 +39,7 @@ RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-${PLAYBOX_PYTHON
 
 EXPOSE 10000
 EXPOSE 6680
+EXPOSE 6600
 
 CMD mopidy --config /etc/mopidy & playbox ${PLAYBOX_DEBUG}
 
