@@ -12,6 +12,7 @@ ExecStartPre=-/usr/bin/docker pull bernedom/playbox:latest
 ExecStart=/usr/bin/docker run -v /home/pi/audio.csv:/var/playbox/audio.csv \
      -v /var/playbox/spotify.conf:/etc/mopidy/spotify.conf \
      -v /dev/bus/usb:/dev/bus/usb \
+     -v /home/pi/audio:/var/playbox/audio \
      --device /dev/snd --privileged \
      -p 6680:6680 --network host --rm \
      --name %n bernedom/playbox:latest
