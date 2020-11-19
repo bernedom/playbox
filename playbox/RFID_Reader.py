@@ -42,6 +42,7 @@ class RFID_Reader:
                     message += self.__scancodes[cat_event.scancode]
                 elif message != "":
                     # self.player.playuri('file:///root/mount/test.MP3')
+                    logging.debug("Read chip: " + message.strip())
                     self.player.play(message.strip())
                     message = ""
 
