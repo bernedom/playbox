@@ -1,5 +1,9 @@
 # Changelog
 
+# develop
+
+* Putting the same token on the box twice does no longer restart the play
+
 # 0.1.3
 
 * Python module gets version from git
