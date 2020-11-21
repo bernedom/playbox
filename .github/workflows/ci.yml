@@ -79,7 +79,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64, linux/arm/v7
+          platforms: linux/amd64,linux/arm/v7
           push: true
           build-args: |
             PLAYBOX_PYTHON_VERSION=${{ steps.vars.outputs.playbox-version }}
@@ -93,7 +93,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64, linux/arm/v7
+          platforms: linux/amd64,linux/arm/v7
           push: true
           build-args: |
             PLAYBOX_PYTHON_VERSION=${{ steps.vars.outputs.playbox-version }}
@@ -107,7 +107,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64, linux/arm/v7
+          platforms: linux/amd64,linux/arm/v7
           push: true
           build-args: |
             PLAYBOX_PYTHON_VERSION=${{ steps.vars.outputs.playbox-version }}

@@ -68,3 +68,54 @@ def test_previous_token_calls_mpc_previous(mock_mpd_previous):
     player.registerPrevious("99999")
     player.play("99999")
     mock_mpd_previous.assert_called_once()
+
+
+@patch('mpd.MPDClient.clear')
+@patch('mpd.MPDClient.next')
+@patch('mpd.MPDClient.add')
+@patch('mpd.MPDClient.play')
+def test_multiple_calls_to_play_with_same_token_result_in_only_one_play_call_to_mpd(mock_mpd_clear, mock_mpd_next, mock_mpd_add, mock_mpd_play):
+    library = playbox.AudioLibrary()
+    library.registerAudio("12345", "/some/file/foo.ogg")
+    player = playbox.Player(library)
+    player.play("12345")
+    player.play("12345")
+    mock_mpd_clear.assert_called_once()
+    mock_mpd_next.assert_called_once()
+    mock_mpd_add.assert_called_once()
+    mock_mpd_play.assert_called_once()
+
+
+@patch('mpd.MPDClient.clear')
+@patch('mpd.MPDClient.next')
+@patch('mpd.MPDClient.add')
+@patch('mpd.MPDClient.play')
+def test_multiple_calls_to_play_with_different_token_result_in_two_play_calls_to_mpd(mock_mpd_clear, mock_mpd_next, mock_mpd_add, mock_mpd_play):
+    library = playbox.AudioLibrary()
+    library.registerAudio("12345", "/some/file/foo.ogg")
+    library.registerAudio("45678", "/some/other/file/foo.ogg")
+    player = playbox.Player(library)
+    player.play("12345")
+    player.play("45678")
+    assert mock_mpd_play.call_count == 2
+
+
+@patch('mpd.MPDClient.clear')
+@patch('mpd.MPDClient.next')
+@patch('mpd.MPDClient.add')
+@patch('mpd.MPDClient.play')
+@patch('mpd.MPDClient.stop')
+def test_multiple_calls_to_play_with_same_token_result_in_two_plays_if_stop_was_called_in_between_call_to_mpd(mock_mpd_clear, mock_mpd_next, mock_mpd_add, mock_mpd_play, mock_mpd_stop):
+    library = playbox.AudioLibrary()
+    library.registerAudio("12345", "/some/file/foo.ogg")
+
+    player = playbox.Player(library)
+    player.registerStop("99999")
+    player.play("12345")
+    player.play("99999")
+    player.play("12345")
+    mock_mpd_clear.call_count = 2
+    mock_mpd_next.call_count = 2
+    mock_mpd_add.call_count = 2
+    mock_mpd_stop.call_count = 2
+    assert mock_mpd_play.call_count == 2

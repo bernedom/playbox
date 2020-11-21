@@ -5,33 +5,30 @@ ARG PLAYBOX_PYTHON_VERSION
 
 RUN test -n "$PLAYBOX_PYTHON_VERSION" || (echo "PLAYBOX_PYTHON_VERSION  not set" && false)
 
-RUN apt update && apt install -y gnupg2 wget apt-transport-https ca-certificates
+RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 wget apt-transport-https ca-certificates
 
-RUN wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add -
-RUN wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list
-RUN apt update
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add - && \
+    wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list
 
-RUN apt install -y vim python3 python3-dev gcc g++ mopidy mpc libffi-dev python3-pip mopidy-spotify git
-RUN pip3 install --upgrade pip
+RUN apt-get update && apt-get install -y --no-install-recommends vim python3 python3-dev gcc g++ mopidy mpc libffi-dev python3-pip mopidy-spotify git
 
-# Python packages for the system
-RUN pip3 install Mopidy-MPD Mopidy-Iris
+# install python packages for the system
+RUN python3 -m pip install --upgrade pip && \
+    python3 -m pip install Mopidy-MPD==3.0.0 Mopidy-Iris==3.54.2
 
-#debug tools TODO remove for production containers
-RUN apt install -y sox nmap procps libsox-fmt-mp3 alsa-utils
-
-# Packages used in the scripts
+# Packages used in the scripts 
 COPY requirements.txt /root/
 RUN pip3 install -r /root/requirements.txt
 
 # Cleanup tools only needed for setup to make container image smaller
-RUN apt remove -y python3-dev gcc g++ && apt autoremove -y
+RUN apt-get remove -y python3-dev gcc g++ && apt-get autoremove -y
 
-RUN echo "[http]" >> /etc/mopidy/mopidy.conf
-RUN echo "hostname = 0.0.0.0" >> /etc/mopidy/mopidy.conf
+RUN echo "[http]" >> /etc/mopidy/mopidy.conf && \
+    echo "hostname = 0.0.0.0" >> /etc/mopidy/mopidy.conf
 
-RUN echo "defaults.pcm.card 1" >> /etc/asound.conf
-RUN echo "defaults.ctl.card 1" >> /etc/asound.conf
+RUN echo "defaults.pcm.card 1" >> /etc/asound.conf && \
+    echo "defaults.ctl.card 1" >> /etc/asound.conf
 
 # install playbox
 COPY dist/playbox-${PLAYBOX_PYTHON_VERSION}.tar.gz /root/playbox-install.tar.gz

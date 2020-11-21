@@ -21,6 +21,7 @@ class Player:
         self.__stopKey = ""
         self.__nextKey = ""
         self.__previousKey = ""
+        self.__currentKey = ""
 
     def connect(self, port=6600):
         self.mpd_client.connect("localhost", 6600)  # connect to localhost:6600
@@ -47,13 +48,16 @@ class Player:
             return
 
         try:
-            self.playuri(self.__library.getAudio(key))
+            if self.__currentKey != key:
+                self.playuri(self.__library.getAudio(key))
+            self.__currentKey = key
         except KeyError:
             logging.info("Trying to play back unregistered key: " + key)
 
     def stop(self):
         logging.info("Stopping play")
         self.mpd_client.stop()
+        self.__currentKey = ""
 
     def next(self):
         logging.info("Jumping to next track")
