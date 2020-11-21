@@ -3,6 +3,7 @@
 # develop
 
 * Putting the same token on the box twice does no longer restart the play
+* Linting `Dockerfile` to fix version and make the image smaller
 
 # 0.1.3
 
