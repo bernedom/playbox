@@ -40,7 +40,10 @@ class Player:
             return True
         except mpd.base.ConnectionError:
             logging.error("Could not connect to mpd")
-            return False
+        except ConnectionRefusedError:
+            logging.error("Could not connect to mpd")
+
+        return False
 
     def registerStop(self, key: str):
         self.__stopKey = key
