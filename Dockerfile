@@ -3,8 +3,6 @@ FROM debian:10.5
 ENV DEBIAN_FRONTEND=noninteractive
 ARG PLAYBOX_PYTHON_VERSION
 
-RUN test -n "$PLAYBOX_PYTHON_VERSION" || (echo "PLAYBOX_PYTHON_VERSION  not set" && false)
-
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 wget apt-transport-https ca-certificates
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
