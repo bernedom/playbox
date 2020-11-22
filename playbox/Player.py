@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from mpd import MPDClient
+import mpd
 from playbox import AudioLibrary
 import logging
 
@@ -23,8 +24,21 @@ class Player:
         self.__previousKey = ""
         self.__currentKey = ""
 
+    def isConnected(self):
+        try:
+            self.mpd_client.fileno()
+            return True
+        except mpd.base.ConnectionError:
+            return False
+
     def connect(self, port=6600):
-        self.mpd_client.connect("localhost", 6600)  # connect to localhost:6600
+        if self.isConnected():
+            return
+        try:
+            # connect to localhost:6600
+            self.mpd_client.connect("localhost", 6600)
+        except mpd.base.ConnectionError:
+            logging.error("Could not connect to mpd")
 
     def registerStop(self, key: str):
         self.__stopKey = key
