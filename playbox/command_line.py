@@ -24,8 +24,6 @@ def main():
     library = AudioLibrary()
 
     library.readFromCsv("/var/playbox/audio.csv")
-    # TODO  sleep because of race condition on startup
-    sleep(10.0)
 
     # TODO move configuration to a config file and create setup routine
     player = Player(library)
