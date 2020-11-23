@@ -9,7 +9,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add - && \
     wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list
 
-RUN apt-get update && apt-get install -y --no-install-recommends vim python3 python3-dev gcc g++ mopidy mpc libffi-dev python3-pip mopidy-spotify git
+RUN apt-get update && apt-get install -y --no-install-recommends vim python3 python3-dev \
+    gcc g++ mopidy mpc libffi-dev python3-pip mopidy-spotify \
+    gstreamer1.0-alsa gstreamer1.0-tools gstreamer1.0-pulseaudio
 
 # install python packages for the system
 RUN python3 -m pip install --upgrade pip && \
