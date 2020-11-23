@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.1.5
+
+* Playbox is able to reconnect if connection to mpd is lost
+
 # 0.1.4
 
 * Putting the same token on the box twice does no longer restart the play
