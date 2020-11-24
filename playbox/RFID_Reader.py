@@ -12,7 +12,6 @@ class RFID_Reader:
         self.device_id = device_id
         self.device = None
         self.player = player
-        self.player.connect()
 
     def print_device_capabilities(self):
         print(self.device.capabilities(verbose=True))

@@ -6,6 +6,6 @@ docker run -ti -v $(pwd):/root/mount \
 -v /dev/bus/usb:/dev/bus/usb \
 --device /dev/snd \
 -e PLAYBOX_DEBUG=-d \
---privileged -p 10000:10000 --rm playbox
+--privileged -p 10000:10000 --rm playbox:hack
 
 

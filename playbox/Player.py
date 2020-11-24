@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from mpd import MPDClient
+import mpd
 from playbox import AudioLibrary
 import logging
 
@@ -23,8 +24,26 @@ class Player:
         self.__previousKey = ""
         self.__currentKey = ""
 
+    def isConnected(self):
+        try:
+            self.mpd_client.fileno()
+            return True
+        except mpd.base.ConnectionError:
+            return False
+
     def connect(self, port=6600):
-        self.mpd_client.connect("localhost", 6600)  # connect to localhost:6600
+        if self.isConnected():
+            return True
+        try:
+            # connect to localhost:6600
+            self.mpd_client.connect("localhost", 6600)
+            return True
+        except mpd.base.ConnectionError:
+            logging.error("Could not connect to mpd")
+        except ConnectionRefusedError:
+            logging.error("Could not connect to mpd")
+
+        return False
 
     def registerStop(self, key: str):
         self.__stopKey = key
@@ -37,6 +56,8 @@ class Player:
 
     # TODO rename to handle token
     def play(self, key: str):
+        if not self.connect():
+            return
         if key == self.__stopKey:
             self.stop()
             return
@@ -56,19 +77,27 @@ class Player:
 
     def stop(self):
         logging.info("Stopping play")
+        if not self.connect():
+            return
         self.mpd_client.stop()
         self.__currentKey = ""
 
     def next(self):
         logging.info("Jumping to next track")
+        if not self.connect():
+            return
         self.mpd_client.next()
 
     def previous(self):
         logging.info("Jumping to previous track")
+        if not self.connect():
+            return
         self.mpd_client.previous()
 
     def playuri(self, audio_file):
         logging.info("playing audio_file " + audio_file)
+        if not self.connect():
+            return
         self.mpd_client.clear()
         self.mpd_client.add(audio_file)
         self.mpd_client.next()

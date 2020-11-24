@@ -4,6 +4,8 @@ from time import sleep
 from playbox import AudioLibrary, Player, RFID_Reader, stdin_Reader
 import atexit
 import argparse
+import time
+import logging
 
 player = None
 parser = argparse.ArgumentParser()
@@ -24,8 +26,6 @@ def main():
     library = AudioLibrary()
 
     library.readFromCsv("/var/playbox/audio.csv")
-    # TODO  sleep because of race condition on startup
-    sleep(10.0)
 
     # TODO move configuration to a config file and create setup routine
     player = Player(library)
@@ -39,5 +39,10 @@ def main():
     else:
         reader = RFID_Reader(player)
     reader.aqcuireDevice("HID 413d:2107")
+
+    while not player.connect():
+        time.sleep(0.3)
+        logging.debug("Connection failed, trying again")
+
     player.playuri("file:///var/playbox/ready.mp3")
     reader.run()
