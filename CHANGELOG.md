@@ -1,5 +1,10 @@
 # Changelog
 
+# 0.1.6
+
+* Remove MPD timeout of 10 seconds to avoid losing connection while running
+* Renamed play() function to handleToken()
+
 # 0.1.5
 
 * Playbox is able to reconnect if connection to mpd is lost
