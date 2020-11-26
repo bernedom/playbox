@@ -13,7 +13,6 @@ class Player:
 
     def __init__(self, audio_library: AudioLibrary):
         self.mpd_client = MPDClient()
-        self.mpd_client.timeout = 10
         # timeout for fetching the result of the idle command is handled seperately, default: None
         self.mpd_client.idletimeout = None
         self.__library = audio_library
