@@ -44,5 +44,5 @@ def main():
         time.sleep(0.3)
         logging.debug("Connection failed, trying again")
 
-    player.playuri("file:///var/playbox/ready.mp3")
+    player.play("file:///var/playbox/ready.mp3")
     reader.run()

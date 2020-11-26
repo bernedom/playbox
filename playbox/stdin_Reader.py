@@ -24,5 +24,5 @@ class stdin_Reader(RFID_Reader):
         for message in sys.stdin:
             message.rstrip()
             if message != "":
-                self.player.play(message.strip())
+                self.player.handleToken(message.strip())
                 message = ""

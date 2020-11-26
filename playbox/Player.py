@@ -6,8 +6,6 @@ from playbox import AudioLibrary
 import logging
 
 # TODO add sanitizer for registering keys
-# TODO check if mpc client is connected before calling its functions
-
 
 class Player:
 
@@ -53,8 +51,7 @@ class Player:
     def registerPrevious(self, key: str):
         self.__previousKey = key
 
-    # TODO rename to handle token
-    def play(self, key: str):
+    def handleToken(self, key: str):
         if not self.connect():
             return
         if key == self.__stopKey:
@@ -69,7 +66,7 @@ class Player:
 
         try:
             if self.__currentKey != key:
-                self.playuri(self.__library.getAudio(key))
+                self.play(self.__library.getAudio(key))
             self.__currentKey = key
         except KeyError:
             logging.info("Trying to play back unregistered key: " + key)
@@ -93,7 +90,7 @@ class Player:
             return
         self.mpd_client.previous()
 
-    def playuri(self, audio_file):
+    def play(self, audio_file):
         logging.info("playing audio_file " + audio_file)
         if not self.connect():
             return
