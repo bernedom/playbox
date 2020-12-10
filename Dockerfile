@@ -1,7 +1,6 @@
 FROM debian:10.5
 
 ENV DEBIAN_FRONTEND=noninteractive
-ARG PLAYBOX_PYTHON_VERSION
 
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 wget apt-transport-https ca-certificates
 
@@ -31,6 +30,7 @@ RUN echo "defaults.pcm.card 1" >> /etc/asound.conf && \
     echo "defaults.ctl.card 1" >> /etc/asound.conf
 
 # install playbox
+ARG PLAYBOX_PYTHON_VERSION
 COPY dist/playbox-${PLAYBOX_PYTHON_VERSION}.tar.gz /root/playbox-install.tar.gz
 RUN cd /root/ && tar -xvzf playbox-install.tar.gz && cd playbox-${PLAYBOX_PYTHON_VERSION} && python3 setup.py install
 
