@@ -31,6 +31,7 @@ def main():
     config = configparser.ConfigParser()
     config.read("/etc/playbox/playbox.conf")
     special_keys = config["SPECIALKEYS"]
+    rfid_config = config["RFID"]
 
     player = Player(library)
     player.registerStop(special_keys["stop"])
@@ -42,7 +43,7 @@ def main():
         reader = stdin_Reader(player)
     else:
         reader = RFID_Reader(player)
-    reader.aqcuireDevice("HID 413d:2107")
+    reader.aqcuireDevice(rfid_config["usb_id"])
 
     while not player.connect():
         time.sleep(0.3)
