@@ -8,7 +8,8 @@ TimeoutStartSec=0
 Restart=always
 ExecStartPre=-/usr/bin/docker pull bernedom/playbox:latest
 ExecStart=/usr/bin/docker run -v /home/pi/audio.csv:/var/playbox/audio.csv \
-     -v /var/playbox/spotify.conf:/etc/mopidy/spotify.conf \
+     -v /etc/playbox/spotify.conf:/etc/mopidy/spotify.conf \
+     -v /etc/playbox/playbox.conf:/etc/playbox/playbox.conf \
      -v /dev/bus/usb:/dev/bus/usb \
      -v /home/pi/audio:/var/playbox/audio \
      --device /dev/snd --privileged \

@@ -2,7 +2,8 @@
 
 # 0.1.7
 
-* Put special keys configuration into a config file
+* Put special keys and RFID-reader configuration into a config file
+
 
 # 0.1.6
 
