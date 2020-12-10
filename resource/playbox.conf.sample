@@ -1,0 +1,8 @@
+[SPECIALKEYS]
+stop = 03331943
+next = 04029591
+previous = 03331879
+
+
+[RFID]
+usb_id = HID 413d:2107

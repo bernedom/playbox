@@ -1,5 +1,10 @@
 # Changelog
 
+# 0.1.7
+
+* Put special keys and RFID-reader configuration into a config file
+
+
 # 0.1.6
 
 * Remove MPD timeout of 10 seconds to avoid losing connection while running

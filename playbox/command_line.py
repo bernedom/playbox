@@ -6,7 +6,9 @@ import atexit
 import argparse
 import time
 import logging
+import configparser
 
+# Todo add arguments to find the audio database and config file
 player = None
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -26,19 +28,22 @@ def main():
     library = AudioLibrary()
 
     library.readFromCsv("/var/playbox/audio.csv")
+    config = configparser.ConfigParser()
+    config.read("/etc/playbox/playbox.conf")
+    special_keys = config["SPECIALKEYS"]
+    rfid_config = config["RFID"]
 
-    # TODO move configuration to a config file and create setup routine
     player = Player(library)
-    player.registerStop("03331943")
-    player.registerNext("04029591")
-    player.registerPrevious("03331879")
+    player.registerStop(special_keys["stop"])
+    player.registerNext(special_keys["next"])
+    player.registerPrevious(special_keys["previous"])
 
     reader = None
     if arguments.d:
         reader = stdin_Reader(player)
     else:
         reader = RFID_Reader(player)
-    reader.aqcuireDevice("HID 413d:2107")
+    reader.aqcuireDevice(rfid_config["usb_id"])
 
     while not player.connect():
         time.sleep(0.3)
