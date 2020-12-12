@@ -121,7 +121,7 @@ def test_to_play_with_same_token_result_in_two_play_calls_to_mpd_when_paused(moc
 @patch('mpd.MPDClient.next')
 @patch('mpd.MPDClient.add')
 @patch('mpd.MPDClient.play')
-def test_multiple_calls_to_play_with_same_token_result_in_only_one_play_call_to_mpd(mock_mpd_clear, mock_mpd_next, mock_mpd_add, mock_mpd_play):
+def test_multiple_calls_to_play_with_same_token_result_in_only_one_play_call_to_mpd(mock_mpd_play, mock_mpd_add, mock_mpd_next, mock_mpd_clear):
     library = playbox.AudioLibrary()
     library.registerAudio("12345", "/some/file/foo.ogg")
     player = playbox.Player(library)
