@@ -34,9 +34,25 @@ def main():
     rfid_config = config["RFID"]
 
     player = Player(library)
-    player.registerStop(special_keys["stop"])
-    player.registerNext(special_keys["next"])
-    player.registerPrevious(special_keys["previous"])
+    try:
+        player.registerStop(special_keys["stop"])
+    except KeyError:
+        pass
+
+    try:
+        player.registerNext(special_keys["next"])
+    except KeyError:
+        pass
+
+    try:
+        player.registerPrevious(special_keys["previous"])
+    except KeyError:
+        pass
+
+    try:
+        player.registerPause(special_keys["pause"])
+    except KeyError:
+        pass
 
     reader = None
     if arguments.d:
