@@ -22,6 +22,7 @@ class Player:
         self.__previousKey = ""
         self.__pauseKey = ""
         self.__currentKey = ""
+        self.__isPaused = False
 
     def isConnected(self):
         try:
@@ -75,7 +76,10 @@ class Player:
         try:
             if self.__currentKey != key:
                 self.play(self.__library.getAudio(key))
-            self.__currentKey = key
+                self.__currentKey = key
+            elif self.__isPaused:
+                self.pause()
+
         except KeyError:
             logging.info("Trying to play back unregistered key: " + key)
 
@@ -102,7 +106,13 @@ class Player:
         logging.info("Pausing play")
         if not self.connect():
             return
-        self.mpd_client.pause()
+
+        if not self.__isPaused:
+            self.mpd_client.pause()
+            self.__isPaused = True
+        else:
+            self.mpd_client.play()
+            self.__isPaused = False
 
     def play(self, audio_file):
         logging.info("playing audio_file " + audio_file)

@@ -85,6 +85,38 @@ def test_pause_token_calls_mpc_pause(mock_mpd_pause):
     mock_mpd_pause.assert_called_once()
 
 
+@patch('mpd.MPDClient.pause')
+@patch('mpd.MPDClient.play')
+def test_repeated_pause_token_toggles_mpc_pause_and_play(mock_mpd_pause, mock_mpd_play):
+    library = playbox.AudioLibrary()
+    player = playbox.Player(library)
+    player.connect = MagicMock(return_value=True)
+    player.registerPause("99999")
+    player.handleToken("99999")
+    player.handleToken("99999")
+    mock_mpd_pause.assert_called_once()
+    mock_mpd_play.assert_called_once()
+
+
+@patch('mpd.MPDClient.clear')
+@patch('mpd.MPDClient.next')
+@patch('mpd.MPDClient.add')
+@patch('mpd.MPDClient.play')
+@patch('mpd.MPDClient.pause')
+def test_to_play_with_same_token_result_in_two_play_calls_to_mpd_when_paused(mock_mpd_pause, mock_mpd_play, mock_mpd_add, mock_mpd_next, mock_mpd_clear):
+    library = playbox.AudioLibrary()
+    library.registerAudio("12345", "/some/file/foo.ogg")
+
+    player = playbox.Player(library)
+    player.registerPause("99999")
+    player.connect = MagicMock(return_value=True)
+    player.handleToken("12345")
+    player.handleToken("99999")
+    player.handleToken("12345")
+    mock_mpd_pause.assert_called_once()
+    assert mock_mpd_play.call_count == 2
+
+
 @patch('mpd.MPDClient.clear')
 @patch('mpd.MPDClient.next')
 @patch('mpd.MPDClient.add')
