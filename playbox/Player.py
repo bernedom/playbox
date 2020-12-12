@@ -7,6 +7,7 @@ import logging
 
 # TODO add sanitizer for registering keys
 
+
 class Player:
 
     def __init__(self, audio_library: AudioLibrary):
@@ -19,6 +20,7 @@ class Player:
         self.__stopKey = ""
         self.__nextKey = ""
         self.__previousKey = ""
+        self.__pauseKey = ""
         self.__currentKey = ""
 
     def isConnected(self):
@@ -51,6 +53,9 @@ class Player:
     def registerPrevious(self, key: str):
         self.__previousKey = key
 
+    def registerPause(self, key: str):
+        self.__pauseKey = key
+
     def handleToken(self, key: str):
         if not self.connect():
             return
@@ -62,6 +67,9 @@ class Player:
             return
         elif key == self.__previousKey:
             self.previous()
+            return
+        elif key == self.__pauseKey:
+            self.pause()
             return
 
         try:
@@ -89,6 +97,12 @@ class Player:
         if not self.connect():
             return
         self.mpd_client.previous()
+
+    def pause(self):
+        logging.info("Pausing play")
+        if not self.connect():
+            return
+        self.mpd_client.pause()
 
     def play(self, audio_file):
         logging.info("playing audio_file " + audio_file)

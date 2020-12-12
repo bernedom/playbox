@@ -75,6 +75,16 @@ def test_previous_token_calls_mpc_previous(mock_mpd_previous):
     mock_mpd_previous.assert_called_once()
 
 
+@patch('mpd.MPDClient.pause')
+def test_pause_token_calls_mpc_pause(mock_mpd_pause):
+    library = playbox.AudioLibrary()
+    player = playbox.Player(library)
+    player.connect = MagicMock(return_value=True)
+    player.registerPause("99999")
+    player.handleToken("99999")
+    mock_mpd_pause.assert_called_once()
+
+
 @patch('mpd.MPDClient.clear')
 @patch('mpd.MPDClient.next')
 @patch('mpd.MPDClient.add')
