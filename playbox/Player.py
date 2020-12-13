@@ -17,8 +17,9 @@ class Player:
         self.__library = audio_library
 
         # TODO handle duplicate registration (probably done by moving to a dict)
-        self.__specialKeys = {"stop": "",
-                              "next": "", "previous":  "", "pause": ""}
+        self.__specialKeys = {}
+        self.__specialFunctions = {
+            "stop": self.stop, "next": self.next, "previous": self.previous, "pause": self.pause}
         self.__currentKey = ""
         self.__isPaused = False
 
@@ -46,7 +47,7 @@ class Player:
     def registerSpecialKey(self, function: str, key: str):
         logging.info(
             "Registering special function '{}', to key '{}'".format(function, key))
-        self.__specialKeys[function] = key
+        self.__specialKeys[key] = function
 
     def registerStop(self, key: str):
         self.registerSpecialKey("stop", key)
@@ -63,17 +64,9 @@ class Player:
     def handleToken(self, key: str):
         if not self.connect():
             return
-        if key == self.__specialKeys["stop"]:
-            self.stop()
-            return
-        elif key == self.__specialKeys["next"]:
-            self.next()
-            return
-        elif key == self.__specialKeys["previous"]:
-            self.previous()
-            return
-        elif key == self.__specialKeys["pause"]:
-            self.pause()
+
+        if key in self.__specialKeys and self.__specialKeys[key] in self.__specialFunctions:
+            self.__specialFunctions[self.__specialKeys[key]]()
             return
 
         try:
