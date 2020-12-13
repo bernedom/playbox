@@ -9,9 +9,18 @@ from unittest.mock import MagicMock, patch
 
 
 @patch('mpd.MPDClient.connect')
-@patch('mpd.MPDClient.fileno', **{'return_value.raiseError.side_effect': mpd.base.ConnectionError()})
-def test_player_connects_if_not_already_connected(mock_mpd_connect, mock_mpd_fileno):
+def test_player_connects_if_not_already_connected(mock_mpd_connect):
 
     player = playbox.Player(playbox.AudioLibrary())
+    player.isConnected = MagicMock(return_value=False)
+    player.connect()
+    mock_mpd_connect.assert_called_once()
+
+
+@patch('mpd.MPDClient.connect')
+def test_player_does_not_connect_if_already_connected(mock_mpd_connect):
+
+    player = playbox.Player(playbox.AudioLibrary())
+    player.isConnected = MagicMock(return_value=False)
     player.connect()
     mock_mpd_connect.assert_called_once()
