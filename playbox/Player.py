@@ -15,12 +15,10 @@ class Player:
         # timeout for fetching the result of the idle command is handled seperately, default: None
         self.mpd_client.idletimeout = None
         self.__library = audio_library
-        # TODO put function pointers/lambda or similar into a dict
+
         # TODO handle duplicate registration (probably done by moving to a dict)
-        self.__stopKey = ""
-        self.__nextKey = ""
-        self.__previousKey = ""
-        self.__pauseKey = ""
+        self.__specialKeys = {"stop": "",
+                              "next": "", "previous":  "", "pause": ""}
         self.__currentKey = ""
         self.__isPaused = False
 
@@ -45,31 +43,36 @@ class Player:
 
         return False
 
+    def registerSpecialKey(self, function: str, key: str):
+        logging.info(
+            "Registering special function '{}', to key '{}'".format(function, key))
+        self.__specialKeys[function] = key
+
     def registerStop(self, key: str):
-        self.__stopKey = key
+        self.registerSpecialKey("stop", key)
 
     def registerNext(self, key: str):
-        self.__nextKey = key
+        self.registerSpecialKey("next", key)
 
     def registerPrevious(self, key: str):
-        self.__previousKey = key
+        self.registerSpecialKey("previous", key)
 
     def registerPause(self, key: str):
-        self.__pauseKey = key
+        self.registerSpecialKey("pause", key)
 
     def handleToken(self, key: str):
         if not self.connect():
             return
-        if key == self.__stopKey:
+        if key == self.__specialKeys["stop"]:
             self.stop()
             return
-        elif key == self.__nextKey:
+        elif key == self.__specialKeys["next"]:
             self.next()
             return
-        elif key == self.__previousKey:
+        elif key == self.__specialKeys["previous"]:
             self.previous()
             return
-        elif key == self.__pauseKey:
+        elif key == self.__specialKeys["pause"]:
             self.pause()
             return
 
