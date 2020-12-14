@@ -21,6 +21,13 @@ def shutdown():
         player.stop()
 
 
+def registerSpecialKey(config: configparser.SectionProxy, player: Player, key: str):
+    try:
+        player.registerSpecialKey(key, config[key])
+    except KeyError:
+        pass
+
+
 def main():
     global parser
     global player
@@ -34,9 +41,10 @@ def main():
     rfid_config = config["RFID"]
 
     player = Player(library)
-    player.registerStop(special_keys["stop"])
-    player.registerNext(special_keys["next"])
-    player.registerPrevious(special_keys["previous"])
+    registerSpecialKey(special_keys, player, "stop")
+    registerSpecialKey(special_keys, player, "next")
+    registerSpecialKey(special_keys, player, "previous")
+    registerSpecialKey(special_keys, player, "pause")
 
     reader = None
     if arguments.d:

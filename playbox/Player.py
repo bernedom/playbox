@@ -7,6 +7,7 @@ import logging
 
 # TODO add sanitizer for registering keys
 
+
 class Player:
 
     def __init__(self, audio_library: AudioLibrary):
@@ -14,12 +15,13 @@ class Player:
         # timeout for fetching the result of the idle command is handled seperately, default: None
         self.mpd_client.idletimeout = None
         self.__library = audio_library
-        # TODO put function pointers/lambda or similar into a dict
+
         # TODO handle duplicate registration (probably done by moving to a dict)
-        self.__stopKey = ""
-        self.__nextKey = ""
-        self.__previousKey = ""
+        self.__specialKeys = {}
+        self.__specialFunctions = {
+            "stop": self.stop, "next": self.next, "previous": self.previous, "pause": self.pause}
         self.__currentKey = ""
+        self.__isPaused = False
 
     def isConnected(self):
         try:
@@ -42,32 +44,38 @@ class Player:
 
         return False
 
+    def registerSpecialKey(self, function: str, key: str):
+        logging.info(
+            "Registering special function '{}', to key '{}'".format(function, key))
+        self.__specialKeys[key] = function
+
     def registerStop(self, key: str):
-        self.__stopKey = key
+        self.registerSpecialKey("stop", key)
 
     def registerNext(self, key: str):
-        self.__nextKey = key
+        self.registerSpecialKey("next", key)
 
     def registerPrevious(self, key: str):
-        self.__previousKey = key
+        self.registerSpecialKey("previous", key)
+
+    def registerPause(self, key: str):
+        self.registerSpecialKey("pause", key)
 
     def handleToken(self, key: str):
         if not self.connect():
             return
-        if key == self.__stopKey:
-            self.stop()
-            return
-        elif key == self.__nextKey:
-            self.next()
-            return
-        elif key == self.__previousKey:
-            self.previous()
+
+        if key in self.__specialKeys and self.__specialKeys[key] in self.__specialFunctions:
+            self.__specialFunctions[self.__specialKeys[key]]()
             return
 
         try:
             if self.__currentKey != key:
                 self.play(self.__library.getAudio(key))
-            self.__currentKey = key
+                self.__currentKey = key
+            elif self.__isPaused:
+                self.pause()
+
         except KeyError:
             logging.info("Trying to play back unregistered key: " + key)
 
@@ -89,6 +97,18 @@ class Player:
         if not self.connect():
             return
         self.mpd_client.previous()
+
+    def pause(self):
+        logging.info("Pausing play")
+        if not self.connect():
+            return
+
+        if not self.__isPaused:
+            self.mpd_client.pause()
+            self.__isPaused = True
+        else:
+            self.mpd_client.play()
+            self.__isPaused = False
 
     def play(self, audio_file):
         logging.info("playing audio_file " + audio_file)
