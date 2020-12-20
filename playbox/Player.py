@@ -23,16 +23,15 @@ class Player:
         self.__currentKey = ""
         self.__isPaused = False
 
-    def isConnected(self):
-        try:
-            self.mpd_client.fileno()
-            return True
-        except mpd.base.ConnectionError:
-            return False
-
     def connect(self, port=6600):
-        if self.isConnected():
-            return True
+
+        # Disconnect first, to make sure a fresh connection is established
+        try:
+            self.mpd_client.close()
+            self.mpd_client.disconnect()
+        except (mpd.base.ConnectionError):
+            pass
+
         try:
             # connect to localhost:6600
             self.mpd_client.connect("localhost", 6600)
