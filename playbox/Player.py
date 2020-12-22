@@ -23,16 +23,15 @@ class Player:
         self.__currentKey = ""
         self.__isPaused = False
 
-    def isConnected(self):
-        try:
-            self.mpd_client.fileno()
-            return True
-        except mpd.base.ConnectionError:
-            return False
-
     def connect(self, port=6600):
-        if self.isConnected():
-            return True
+
+        # Disconnect first, to make sure a fresh connection is established
+        try:
+            self.mpd_client.close()
+            self.mpd_client.disconnect()
+        except (mpd.base.ConnectionError):
+            pass
+
         try:
             # connect to localhost:6600
             self.mpd_client.connect("localhost", 6600)
@@ -81,28 +80,19 @@ class Player:
 
     def stop(self):
         logging.info("Stopping play")
-        if not self.connect():
-            return
         self.mpd_client.stop()
         self.__currentKey = ""
 
     def next(self):
         logging.info("Jumping to next track")
-        if not self.connect():
-            return
         self.mpd_client.next()
 
     def previous(self):
         logging.info("Jumping to previous track")
-        if not self.connect():
-            return
         self.mpd_client.previous()
 
     def pause(self):
         logging.info("Pausing play")
-        if not self.connect():
-            return
-
         if not self.__isPaused:
             self.mpd_client.pause()
             self.__isPaused = True
@@ -112,8 +102,6 @@ class Player:
 
     def play(self, audio_file):
         logging.info("playing audio_file " + audio_file)
-        if not self.connect():
-            return
         self.mpd_client.clear()
         self.mpd_client.add(audio_file)
         self.mpd_client.next()
