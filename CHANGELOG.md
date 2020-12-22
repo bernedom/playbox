@@ -1,9 +1,13 @@
 # Changelog
 
+# 0.1.8
+
+* Fix bug where playbox crashed after a disconnect from mpd
+* Add key to toggle pause/play
+
 # 0.1.7
 
 * Put special keys and RFID-reader configuration into a config file
-
 
 # 0.1.6
 
